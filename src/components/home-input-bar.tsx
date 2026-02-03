@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaIcon } from "@/components/fa-icon";
 import { Tooltip } from "@/components/tooltip";
 import {
@@ -12,23 +12,110 @@ import {
 } from "@fortawesome/pro-regular-svg-icons";
 
 const PLACEHOLDER = "Try: 'Create a math quiz on fractions for 5th grade'";
-const VOICE_MODE_LABEL = "You text in voice mode";
+
+interface DictationRecognitionResult {
+  readonly length: number;
+  readonly isFinal: boolean;
+  0: { readonly transcript: string };
+}
+
+interface DictationRecognitionEvent {
+  readonly resultIndex: number;
+  readonly results: { readonly length: number; [i: number]: DictationRecognitionResult };
+}
+
+interface DictationRecognition {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: DictationRecognitionEvent) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  start(): void;
+  stop(): void;
+}
+
+function getSpeechRecognition(): (new () => DictationRecognition) | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { SpeechRecognition?: new () => DictationRecognition; webkitSpeechRecognition?: new () => DictationRecognition };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
 
 export function HomeInputBar() {
   const [value, setValue] = useState("");
-  const [isVoiceMode, setIsVoiceMode] = useState(false);
-  const isTyping = value.length > 0;
-  const showSend = isTyping && !isVoiceMode;
-  const displayValue = isVoiceMode ? VOICE_MODE_LABEL : value;
+  const [interim, setInterim] = useState("");
+  const [isDictating, setIsDictating] = useState(false);
+  const [dictationSupported, setDictationSupported] = useState(true);
+  const recognitionRef = useRef<DictationRecognition | null>(null);
 
-  function handleVoiceClick() {
-    if (isVoiceMode) return;
-    setIsVoiceMode(true);
-    setValue("");
+  const isTyping = value.length > 0 || interim.length > 0;
+  const showSend = isTyping && !isDictating;
+  const displayValue = isDictating ? [value, interim].filter(Boolean).join(" ") : value;
+
+  useEffect(() => {
+    queueMicrotask(() => setDictationSupported(!!getSpeechRecognition()));
+  }, []);
+
+  useEffect(() => {
+    if (!isDictating || !dictationSupported) return;
+    const Klass = getSpeechRecognition();
+    if (!Klass) return;
+    const recognition = new Klass();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = typeof navigator !== "undefined" ? navigator.language : "en-US";
+    recognition.onresult = (event: DictationRecognitionEvent) => {
+      let nextInterim = "";
+      setValue((prev) => {
+        let next = prev;
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            next = next ? `${next} ${transcript}` : transcript;
+          } else {
+            nextInterim = transcript;
+          }
+        }
+        return next;
+      });
+      setInterim(nextInterim);
+    };
+    recognition.onerror = (event: { error: string }) => {
+      if (event.error === "no-speech" || event.error === "aborted") return;
+      recognition.stop();
+      setIsDictating(false);
+      setInterim("");
+    };
+    recognitionRef.current = recognition;
+    recognition.start();
+    return () => {
+      try {
+        recognition.stop();
+      } catch {
+        // already stopped
+      }
+      recognitionRef.current = null;
+      setInterim("");
+    };
+  }, [isDictating, dictationSupported]);
+
+  function handleDictationClick() {
+    if (isDictating) return;
+    if (!dictationSupported) return;
+    setInterim("");
+    setIsDictating(true);
   }
 
-  function handleEndVoice() {
-    setIsVoiceMode(false);
+  function handleEndDictation() {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch {
+        // no-op
+      }
+      recognitionRef.current = null;
+    }
+    setIsDictating(false);
+    setInterim("");
   }
 
   function handleSend() {
@@ -51,12 +138,12 @@ export function HomeInputBar() {
         <input
           type="text"
           value={displayValue}
-          onChange={(e) => !isVoiceMode && setValue(e.target.value)}
-          placeholder={isVoiceMode ? undefined : PLACEHOLDER}
-          readOnly={isVoiceMode}
+          onChange={(e) => !isDictating && setValue(e.target.value)}
+          placeholder={isDictating ? undefined : PLACEHOLDER}
+          readOnly={isDictating}
           className="h-4 min-w-0 w-full bg-transparent text-sm leading-4 outline-none placeholder:font-normal"
           style={{
-            color: isVoiceMode ? "var(--foreground-muted)" : "var(--foreground-secondary)",
+            color: isDictating ? "var(--foreground-muted)" : "var(--foreground-secondary)",
             caretColor: "var(--input-caret)",
           }}
         />
@@ -84,15 +171,16 @@ export function HomeInputBar() {
             </button>
           </Tooltip>
         </div>
-        {!isVoiceMode ? (
+        {!isDictating ? (
           <div className="flex items-center gap-1">
             <Tooltip content="Dictation" side="bottom">
               <button
                 type="button"
                 className={iconButtonClass}
                 style={iconMutedStyle}
-                aria-label="Voice input"
-                onClick={handleVoiceClick}
+                aria-label="Dictation"
+                onClick={handleDictationClick}
+                disabled={!dictationSupported}
               >
                 <FaIcon icon={faMicrophone} className="h-4 w-4" />
               </button>
@@ -126,13 +214,13 @@ export function HomeInputBar() {
               type="button"
               className={iconButtonClass}
               style={{ color: "#16a34a" }}
-              aria-label="Voice active"
+              aria-label="Dictation active"
             >
               <FaIcon icon={faMicrophone} className="h-4 w-4" />
             </button>
             <button
               type="button"
-              onClick={handleEndVoice}
+              onClick={handleEndDictation}
               className="h-6 rounded-[6px] px-3 text-sm font-medium flex items-center transition-all duration-150 hover:opacity-90 active:scale-95"
               style={{ backgroundColor: "#16a34a", color: "white" }}
             >
