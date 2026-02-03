@@ -5,7 +5,6 @@ import { useId } from "react";
 const AVATAR_SIZE = 40;
 const AVATAR_GRAY = "#d9d9d9";
 const STATUS_GREEN = "#91d524";
-const STATUS_BORDER = "#044834";
 const STATUS_SIZE = 6;
 
 interface UserAvatarProps {
@@ -72,7 +71,7 @@ export function UserAvatar({
               cx={statusX + statusSize / 2}
               cy={statusY + statusSize / 2}
               r={statusSize / 2 + 2}
-              fill={STATUS_BORDER}
+              fill="var(--sidebar-bg)"
             />
             <circle
               cx={statusX + statusSize / 2}

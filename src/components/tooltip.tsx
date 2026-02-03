@@ -11,7 +11,6 @@ interface TooltipProps {
   triggerClassName?: string;
 }
 
-const TOOLTIP_BG = "#1c1c20";
 
 export function Tooltip({
   content,
@@ -71,7 +70,7 @@ export function Tooltip({
       <span
         className="fixed z-50 whitespace-nowrap rounded-lg px-2 py-1 text-sm text-white opacity-100 transition-opacity duration-150 pointer-events-none"
         style={{
-          backgroundColor: TOOLTIP_BG,
+          backgroundColor: "var(--tooltip-bg)",
           left: coords.left,
           top: coords.top,
           transform: coords.transform,

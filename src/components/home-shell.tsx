@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { SidebarNavItem } from "@/components/sidebar-nav-item";
+import { AvatarMenu } from "@/components/avatar-menu";
 import { SearchModal } from "@/components/search-modal";
-import { UserAvatar } from "@/components/user-avatar";
 import {
   faCirclePlus,
   faMagnifyingGlass,
@@ -24,8 +24,6 @@ import {
   faBell as faBellRegular,
 } from "@fortawesome/pro-regular-svg-icons";
 
-const SIDEBAR_BG = "#044834";
-const MAIN_BG = "#fff6eb";
 
 const navTop = [
   { iconRegular: faCirclePlusRegular, iconSolid: faCirclePlus, label: "New chat", href: "/chat" },
@@ -46,11 +44,11 @@ export function HomeShell({ children }: { children: React.ReactNode }) {
     <>
       <div
         className="flex min-h-screen w-full"
-        style={{ backgroundColor: "#fff" }}
+        style={{ backgroundColor: "var(--main-bg)" }}
       >
         <aside
           className="flex w-16 shrink-0 flex-col items-center gap-4 py-3"
-          style={{ backgroundColor: SIDEBAR_BG, minHeight: "100vh" }}
+          style={{ backgroundColor: "var(--sidebar-bg)", minHeight: "100vh" }}
         >
           <Link href="/" className="flex h-10 w-10 items-center justify-center">
             <Logo width={32} height={32} className="opacity-80" />
@@ -81,11 +79,11 @@ export function HomeShell({ children }: { children: React.ReactNode }) {
               ))}
             </div>
           </nav>
-          <UserAvatar src="/avatar.png" size={40} showStatus />
+          <AvatarMenu avatarSrc="/avatar.png" />
         </aside>
         <main
           className="flex flex-1 flex-col gap-8"
-          style={{ backgroundColor: MAIN_BG, minHeight: "100vh" }}
+          style={{ backgroundColor: "var(--main-bg)", minHeight: "100vh" }}
         >
           {children}
         </main>
