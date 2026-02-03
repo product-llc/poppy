@@ -7,10 +7,12 @@
   --foreground-muted: #78766d;
   --foreground-secondary: #292524;
   --sidebar-bg: #044834;
+  --sidebar-panel-bg: #032F23;
   --main-bg: #fff6eb;
   --tooltip-bg: #1c1c20;
   --border: #e7e5e4;
   --active-nav-bg: rgba(233, 251, 197, 0.1);
+  --sidebar-chat-active-bg: rgba(255, 255, 255, 0.15);
   --input-caret: #16a34a;
   --input-bar-shadow: 0 2.77px 2.21px rgba(0,0,0,0.02), 0 6.65px 5.32px rgba(0,0,0,0.028), 0 12.52px 10.02px rgba(0,0,0,0.035), 0 22.34px 17.87px rgba(0,0,0,0.042), 0 41.78px 33.42px rgba(0,0,0,0.05), 0 100px 80px rgba(0,0,0,0.07);
 }
@@ -21,10 +23,12 @@
   --color-foreground-muted: var(--foreground-muted);
   --color-foreground-secondary: var(--foreground-secondary);
   --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-panel-bg: var(--sidebar-panel-bg);
   --color-main-bg: var(--main-bg);
   --color-tooltip-bg: var(--tooltip-bg);
   --color-border: var(--border);
   --color-input-caret: var(--input-caret);
+  --color-sidebar-chat-active-bg: var(--sidebar-chat-active-bg);
   --font-sans: "Google Sans Flex", "Inter", "SF Pro Display", sans-serif;
   --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
 }
@@ -41,4 +45,9 @@ body {
   color: var(--foreground);
   font-family: "Google Sans Flex", "Inter", "SF Pro Display", sans-serif;
   font-weight: 400;
+}
+
+@keyframes thinking-dot {
+  0%, 60%, 100% { opacity: 0.35; }
+  30% { opacity: 1; }
 }

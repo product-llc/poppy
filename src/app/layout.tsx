@@ -3,6 +3,7 @@ import "@fontsource/google-sans-flex/400.css";
 import "@fontsource/google-sans-flex/500.css";
 import "@fontsource/google-sans-flex/600.css";
 import "@fontsource/google-sans-flex/700.css";
+import { ChatProvider } from "@/lib/chat-context";
 import { HomeShell } from "@/components/home-shell";
 import "@/lib/fontawesome";
 import "./globals.css";
@@ -19,10 +20,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className="antialiased"
       >
-        <HomeShell>{children}</HomeShell>
+        <ChatProvider>
+          <HomeShell>{children}</HomeShell>
+        </ChatProvider>
       </body>
     </html>
   );

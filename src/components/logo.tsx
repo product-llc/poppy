@@ -3,9 +3,10 @@ interface LogoProps {
   height?: number;
   className?: string;
   variant?: "white" | "black";
+  spin?: boolean;
 }
 
-export function Logo({ width = 40, height = 40, className, variant = "white" }: LogoProps) {
+export function Logo({ width = 40, height = 40, className, variant = "white", spin = false }: LogoProps) {
   const isBlack = variant === "black";
   const fill = isBlack ? "#1c1a17" : "white";
   const fillOpacity = isBlack ? "1" : "0.8";
@@ -115,7 +116,7 @@ export function Logo({ width = 40, height = 40, className, variant = "white" }: 
         </defs>
         <g filter={`url(#${filterId})`}>
           <g
-            className="origin-center transition-transform duration-300 group-hover:animate-[spin_4s_linear_infinite]"
+            className={`origin-center transition-transform duration-300 ${spin ? "animate-[spin_4s_linear_infinite]" : "group-hover:animate-[spin_4s_linear_infinite]"}`}
             style={{ transformOrigin: "50% 50%" }}
           >
             <path

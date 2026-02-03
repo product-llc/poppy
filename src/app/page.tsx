@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { HomeActionsGrid } from "@/components/home-actions-grid";
-import { HomeInputBar } from "@/components/home-input-bar";
+import { HomeChatSection } from "@/components/home-chat-section";
 
 export default function HomePage() {
   const now = new Date();
@@ -21,10 +20,7 @@ export default function HomePage() {
             weather="Areas of low clouds to start, otherwise, sunny 73º / 60º"
           />
           <HeroPanel />
-          <div className="flex flex-col gap-2">
-            <HomeActionsGrid actions={ACTION_SHORTCUTS} />
-            <HomeInputBar />
-          </div>
+          <HomeChatSection />
         </section>
         <ScheduleSection />
       </div>
@@ -130,15 +126,6 @@ function ScheduleSection() {
     </section>
   );
 }
-
-const ACTION_SHORTCUTS = [
-  { label: "Plan a lesson", iconKey: "book" as const },
-  { label: "Write to parents", iconKey: "at" as const },
-  { label: "Roleplay a situation", iconKey: "messages" as const },
-  { label: "Create a quiz", iconKey: "checkDouble" as const },
-  { label: "Adapt content", iconKey: "shapes" as const },
-  { label: "Manage tasks", iconKey: "snooze" as const },
-];
 
 interface HeaderSectionProps {
   dateParts: { weekday: string; month: string; day: string };

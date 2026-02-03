@@ -24,6 +24,13 @@ import {
   faListCheck,
   faWaveformLines,
   faUserSecret,
+  faFolder,
+  faChevronDown,
+  faChevronUp,
+  faPlus,
+  faBars,
+  faShareFromSquare,
+  faEllipsisVertical,
 } from "@fortawesome/pro-solid-svg-icons";
 import {
   faSquare,
@@ -49,6 +56,14 @@ import {
   faMicrophone as faMicrophoneRegular,
   faWaveformLines as faWaveformLinesRegular,
   faArrowUp as faArrowUpRegular,
+  faFolder as faFolderRegular,
+  faChevronDown as faChevronDownRegular,
+  faChevronUp as faChevronUpRegular,
+  faPlus as faPlusRegular,
+  faBars as faBarsRegular,
+  faShareFromSquare as faShareFromSquareRegular,
+  faEllipsisVertical as faEllipsisVerticalRegular,
+  faSidebarFlip as faSidebarFlipRegular,
 } from "@fortawesome/pro-regular-svg-icons";
 
 config.autoAddCss = false;
@@ -100,5 +115,20 @@ library.add(
   faUserSecretRegular,
   faMicrophoneRegular,
   faWaveformLinesRegular,
-  faArrowUpRegular
+  faArrowUpRegular,
+  faFolder,
+  faChevronDown,
+  faChevronUp,
+  faPlus,
+  faFolderRegular,
+  faChevronDownRegular,
+  faChevronUpRegular,
+  faPlusRegular,
+  faBars,
+  faBarsRegular,
+  faShareFromSquare,
+  faShareFromSquareRegular,
+  faEllipsisVertical,
+  faEllipsisVerticalRegular,
+  faSidebarFlipRegular
 );

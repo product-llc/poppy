@@ -203,7 +203,12 @@ function getSpeechRecognition(): (new () => DictationRecognition) | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
-export function HomeInputBar() {
+interface HomeInputBarProps {
+  onSend?: (message: string) => void | Promise<void>;
+  disabled?: boolean;
+}
+
+export function HomeInputBar({ onSend, disabled = false }: HomeInputBarProps) {
   const [value, setValue] = useState("");
   const [interim, setInterim] = useState("");
   const [isDictating, setIsDictating] = useState(false);
@@ -296,9 +301,11 @@ export function HomeInputBar() {
     }, 0);
   }
 
-  function handleSend() {
-    if (!value.trim()) return;
+  async function handleSend() {
+    const trimmed = value.trim();
+    if (!trimmed) return;
     setValue("");
+    await onSend?.(trimmed);
   }
 
   const iconButtonClass =
@@ -318,6 +325,12 @@ export function HomeInputBar() {
           type="text"
           value={displayValue}
           onChange={(e) => !isDictating && setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              void handleSend();
+            }
+          }}
           placeholder={isDictating ? undefined : PLACEHOLDER}
           readOnly={isDictating}
           className="min-w-0 w-full bg-transparent text-base leading-normal outline-none placeholder:font-normal py-1"
@@ -368,6 +381,7 @@ export function HomeInputBar() {
               <button
                 type="button"
                 onClick={handleSend}
+                disabled={disabled}
                 className={filledButtonClass}
                 style={{ backgroundColor: "var(--foreground)", color: "white" }}
                 aria-label="Send"
