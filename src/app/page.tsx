@@ -1,28 +1,35 @@
-import { FaIcon } from "@/components/fa-icon";
 import { Logo } from "@/components/logo";
+import { SidebarNavItem } from "@/components/sidebar-nav-item";
 import {
+  faCirclePlus,
+  faMagnifyingGlass,
   faHouse,
-  faChartSimple,
-  faCompass,
-  faMessage,
-  faGear,
-  faCircleQuestion,
+  faComment,
+  faFileLines,
+  faBell,
 } from "@fortawesome/pro-solid-svg-icons";
+import {
+  faCirclePlus as faCirclePlusRegular,
+  faMagnifyingGlass as faMagnifyingGlassRegular,
+  faHouse as faHouseRegular,
+  faComment as faCommentRegular,
+  faFileLines as faFileLinesRegular,
+  faBell as faBellRegular,
+} from "@fortawesome/pro-regular-svg-icons";
 
 const SIDEBAR_BG = "#044834";
 const MAIN_BG = "#fff6eb";
-const ACTIVE_BG = "rgba(233, 251, 197, 0.1)";
 const STATUS_GREEN = "#91d524";
 
 const navTop = [
-  { icon: faChartSimple, label: "Dashboard" },
-  { icon: faCompass, label: "Explore" },
+  { iconRegular: faCirclePlusRegular, iconSolid: faCirclePlus, label: "Add" },
+  { iconRegular: faMagnifyingGlassRegular, iconSolid: faMagnifyingGlass, label: "Search" },
 ];
 const navMain = [
-  { icon: faHouse, label: "Home", active: true },
-  { icon: faMessage, label: "Messages" },
-  { icon: faGear, label: "Settings" },
-  { icon: faCircleQuestion, label: "Help" },
+  { iconRegular: faHouseRegular, iconSolid: faHouse, label: "Home", active: true },
+  { iconRegular: faCommentRegular, iconSolid: faComment, label: "Messages" },
+  { iconRegular: faFileLinesRegular, iconSolid: faFileLines, label: "Files" },
+  { iconRegular: faBellRegular, iconSolid: faBell, label: "Notifications" },
 ];
 
 function Sidebar() {
@@ -37,30 +44,24 @@ function Sidebar() {
       <nav className="flex flex-1 flex-col gap-4">
         <div className="flex flex-col gap-0">
           {navTop.map((item) => (
-            <a
+            <SidebarNavItem
               key={item.label}
-              href="#"
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-white/80 transition-opacity hover:opacity-100"
-              title={item.label}
-            >
-              <FaIcon icon={item.icon} className="h-4 w-4" />
-            </a>
+              iconRegular={item.iconRegular}
+              iconSolid={item.iconSolid}
+              label={item.label}
+              active={item.active}
+            />
           ))}
         </div>
         <div className="flex flex-col gap-0">
           {navMain.map((item) => (
-            <a
+            <SidebarNavItem
               key={item.label}
-              href="#"
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-white transition-opacity hover:opacity-100"
-              style={item.active ? { backgroundColor: ACTIVE_BG } : undefined}
-              title={item.label}
-            >
-              <FaIcon
-                icon={item.icon}
-                className={`h-4 w-4 ${item.active ? "opacity-100" : "opacity-80"}`}
-              />
-            </a>
+              iconRegular={item.iconRegular}
+              iconSolid={item.iconSolid}
+              label={item.label}
+              active={item.active}
+            />
           ))}
         </div>
       </nav>
