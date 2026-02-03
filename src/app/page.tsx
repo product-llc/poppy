@@ -22,12 +22,12 @@ const MAIN_BG = "#fff6eb";
 const STATUS_GREEN = "#91d524";
 
 const navTop = [
-  { iconRegular: faCirclePlusRegular, iconSolid: faCirclePlus, label: "Add" },
+  { iconRegular: faCirclePlusRegular, iconSolid: faCirclePlus, label: "New chat" },
   { iconRegular: faMagnifyingGlassRegular, iconSolid: faMagnifyingGlass, label: "Search" },
 ];
 const navMain = [
   { iconRegular: faHouseRegular, iconSolid: faHouse, label: "Home", active: true },
-  { iconRegular: faCommentRegular, iconSolid: faComment, label: "Messages" },
+  { iconRegular: faCommentRegular, iconSolid: faComment, label: "Chats" },
   { iconRegular: faFileLinesRegular, iconSolid: faFileLines, label: "Files" },
   { iconRegular: faBellRegular, iconSolid: faBell, label: "Notifications" },
 ];
