@@ -43,12 +43,12 @@ export function HomeShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
-        className="flex min-h-screen w-full"
+        className="flex h-screen w-full overflow-hidden"
         style={{ backgroundColor: "var(--main-bg)" }}
       >
         <aside
-          className="flex w-16 shrink-0 flex-col items-center gap-4 py-3"
-          style={{ backgroundColor: "var(--sidebar-bg)", minHeight: "100vh" }}
+          className="flex h-full w-16 shrink-0 flex-col items-center gap-4 overflow-hidden py-3"
+          style={{ backgroundColor: "var(--sidebar-bg)" }}
         >
           <Link href="/" className="flex h-10 w-10 items-center justify-center">
             <Logo width={32} height={32} className="opacity-80" />
@@ -82,8 +82,8 @@ export function HomeShell({ children }: { children: React.ReactNode }) {
           <AvatarMenu avatarSrc="/avatar.png" />
         </aside>
         <main
-          className="flex flex-1 flex-col gap-8"
-          style={{ backgroundColor: "var(--main-bg)", minHeight: "100vh" }}
+          className="flex min-h-0 flex-1 flex-col gap-8 overflow-auto"
+          style={{ backgroundColor: "var(--main-bg)" }}
         >
           {children}
         </main>
