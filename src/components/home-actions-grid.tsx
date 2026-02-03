@@ -43,7 +43,7 @@ export function HomeActionsGrid({ actions }: HomeActionsGridProps) {
             className="h-4 w-4 shrink-0 text-[#78716c] dark:text-stone-400"
             aria-hidden
           />
-          <span className="text-sm font-normal text-[#292524] dark:text-stone-200">
+          <span className="text-base font-normal text-[#292524] dark:text-stone-200">
             {action.label}
           </span>
         </button>

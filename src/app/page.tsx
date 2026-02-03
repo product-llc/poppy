@@ -101,7 +101,7 @@ function ScheduleSection() {
         </h2>
         <Link
           href="/"
-          className="text-sm font-semibold transition hover:opacity-80"
+          className="text-base font-semibold transition hover:opacity-80"
           style={{ color: "var(--foreground-secondary)" }}
         >
           Full schedule &gt;
@@ -109,7 +109,7 @@ function ScheduleSection() {
       </div>
       <div className="flex gap-6">
         <div
-          className="flex shrink-0 flex-col gap-4 text-sm"
+          className="flex shrink-0 flex-col gap-4 text-base"
           style={{ color: "var(--foreground-muted)" }}
         >
           <span className="font-medium">7 AM</span>
@@ -123,7 +123,7 @@ function ScheduleSection() {
               minHeight: "3.5rem",
             }}
           >
-            <p className="text-sm font-semibold">Morning Prep & Arrival</p>
+            <p className="text-base font-semibold">Morning Prep & Arrival</p>
           </div>
         </div>
       </div>

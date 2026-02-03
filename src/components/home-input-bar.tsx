@@ -134,14 +134,14 @@ export function HomeInputBar() {
       className="flex w-full flex-col gap-4 rounded-xl bg-white p-4"
       style={{ boxShadow: "var(--input-bar-shadow)" }}
     >
-      <div className="h-4 min-w-0">
+      <div className="min-w-0">
         <input
           type="text"
           value={displayValue}
           onChange={(e) => !isDictating && setValue(e.target.value)}
           placeholder={isDictating ? undefined : PLACEHOLDER}
           readOnly={isDictating}
-          className="h-4 min-w-0 w-full bg-transparent text-sm leading-4 outline-none placeholder:font-normal"
+          className="min-w-0 w-full bg-transparent text-base leading-normal outline-none placeholder:font-normal py-1"
           style={{
             color: isDictating ? "var(--foreground-muted)" : "var(--foreground-secondary)",
             caretColor: "var(--input-caret)",
@@ -221,7 +221,7 @@ export function HomeInputBar() {
             <button
               type="button"
               onClick={handleEndDictation}
-              className="h-6 rounded-[6px] px-3 text-sm font-medium flex items-center transition-all duration-150 hover:opacity-90 active:scale-95"
+              className="h-6 rounded-[6px] px-3 text-base font-medium flex items-center transition-all duration-150 hover:opacity-90 active:scale-95"
               style={{ backgroundColor: "#16a34a", color: "white" }}
             >
               End
