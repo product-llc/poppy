@@ -20,6 +20,10 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Figma MCP
+
+Figma MCP is configured in `.cursor/mcp.json`. Replace `<your-figma-api-key>` with a [Figma personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens), or set `FIGMA_API_KEY` in Cursor’s MCP server env for this project. Do not commit a real key.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
