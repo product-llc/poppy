@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { SidebarNavItem } from "@/components/sidebar-nav-item";
 import { SearchModal } from "@/components/search-modal";
+import { UserAvatar } from "@/components/user-avatar";
 import {
   faCirclePlus,
   faMagnifyingGlass,
@@ -23,21 +26,21 @@ import {
 
 const SIDEBAR_BG = "#044834";
 const MAIN_BG = "#fff6eb";
-const STATUS_GREEN = "#91d524";
 
 const navTop = [
-  { iconRegular: faCirclePlusRegular, iconSolid: faCirclePlus, label: "New chat" },
+  { iconRegular: faCirclePlusRegular, iconSolid: faCirclePlus, label: "New chat", href: "/chat" },
   { iconRegular: faMagnifyingGlassRegular, iconSolid: faMagnifyingGlass, label: "Search" },
 ];
 const navMain = [
-  { iconRegular: faHouseRegular, iconSolid: faHouse, label: "Home", active: true },
-  { iconRegular: faCommentRegular, iconSolid: faComment, label: "Chats" },
-  { iconRegular: faFileLinesRegular, iconSolid: faFileLines, label: "Files" },
-  { iconRegular: faBellRegular, iconSolid: faBell, label: "Notifications" },
+  { iconRegular: faHouseRegular, iconSolid: faHouse, label: "Home", href: "/" },
+  { iconRegular: faCommentRegular, iconSolid: faComment, label: "Chat", href: "/chat" },
+  { iconRegular: faFileLinesRegular, iconSolid: faFileLines, label: "Files", href: "/files" },
+  { iconRegular: faBellRegular, iconSolid: faBell, label: "Notifications", href: "/notifications" },
 ];
 
-export function HomeShell() {
+export function HomeShell({ children }: { children: React.ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -49,9 +52,9 @@ export function HomeShell() {
           className="flex w-16 shrink-0 flex-col items-center gap-4 py-3"
           style={{ backgroundColor: SIDEBAR_BG, minHeight: "100vh" }}
         >
-          <div className="flex h-10 w-10 items-center justify-center">
+          <Link href="/" className="flex h-10 w-10 items-center justify-center">
             <Logo width={32} height={32} className="opacity-80" />
-          </div>
+          </Link>
           <nav className="flex flex-1 flex-col gap-4">
             <div className="flex flex-col gap-1">
               {navTop.map((item) => (
@@ -60,7 +63,7 @@ export function HomeShell() {
                   iconRegular={item.iconRegular}
                   iconSolid={item.iconSolid}
                   label={item.label}
-                  active={item.active}
+                  href={"href" in item ? item.href : undefined}
                   onClick={item.label === "Search" ? () => setSearchOpen(true) : undefined}
                 />
               ))}
@@ -72,28 +75,20 @@ export function HomeShell() {
                   iconRegular={item.iconRegular}
                   iconSolid={item.iconSolid}
                   label={item.label}
-                  active={item.active}
+                  href={item.href}
+                  active={pathname === item.href}
                 />
               ))}
             </div>
           </nav>
-          <div className="relative h-10 w-10 shrink-0">
-            <div
-              className="h-10 w-10 overflow-hidden rounded-full"
-              style={{ backgroundColor: "#d9d9d9" }}
-            >
-              <div className="h-full w-full bg-[#d9d9d9]" />
-            </div>
-            <span
-              className="absolute bottom-0 right-0 h-1.5 w-1.5 rounded-full border-2 border-[#044834]"
-              style={{ backgroundColor: STATUS_GREEN }}
-            />
-          </div>
+          <UserAvatar src="/avatar.png" size={40} showStatus />
         </aside>
         <main
           className="flex flex-1 flex-col gap-8"
           style={{ backgroundColor: MAIN_BG, minHeight: "100vh" }}
-        />
+        >
+          {children}
+        </main>
       </div>
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>

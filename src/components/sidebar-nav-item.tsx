@@ -1,4 +1,5 @@
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import Link from "next/link";
 import { FaIcon } from "@/components/fa-icon";
 import { Tooltip } from "@/components/tooltip";
 
@@ -37,9 +38,9 @@ export function SidebarNavItem({
           {icon}
         </button>
       ) : (
-        <a href={href} className={className} style={style}>
+        <Link href={href} className={className} style={style}>
           {icon}
-        </a>
+        </Link>
       )}
     </Tooltip>
   );
