@@ -30,7 +30,7 @@ const navTop = [
   { iconRegular: faMagnifyingGlassRegular, iconSolid: faMagnifyingGlass, label: "Search" },
 ];
 const navMain = [
-  { iconRegular: faHouseRegular, iconSolid: faHouse, label: "Home", href: "/" },
+  { iconRegular: faHouseRegular, iconSolid: faHouse, label: "home", href: "/" },
   { iconRegular: faCommentRegular, iconSolid: faComment, label: "Chat", href: "/chat" },
   { iconRegular: faFileLinesRegular, iconSolid: faFileLines, label: "Files", href: "/files" },
   { iconRegular: faBellRegular, iconSolid: faBell, label: "Notifications", href: "/notifications" },
