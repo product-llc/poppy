@@ -78,12 +78,12 @@ export function AvatarMenu({ avatarSrc }: AvatarMenuProps) {
       {open && (
         <div
           data-avatar-menu
-          className="absolute bottom-full left-0 z-50 mb-2 min-w-[220px] overflow-hidden rounded-lg bg-white text-sm shadow-lg"
+          className="absolute bottom-full left-0 z-50 mb-2 min-w-[220px] overflow-hidden rounded-lg bg-white p-2 text-sm shadow-lg"
           role="menu"
         >
           {MENU_ITEMS.map((item, i) =>
             item === "divider" ? (
-              <div key={i} className="border-t border-[var(--border)]" />
+              <div key={i} className="my-2 border-t border-[var(--border)]" />
             ) : (
               <button
                 key={i}
@@ -91,13 +91,14 @@ export function AvatarMenu({ avatarSrc }: AvatarMenuProps) {
                 role="menuitem"
                 disabled={item.disabled}
                 onClick={item.disabled ? undefined : close}
-                className="flex w-full items-center gap-3 px-4 py-2 text-left transition-colors hover:bg-[#FAFAF9] disabled:cursor-default"
-                style={{ color: item.disabled ? "var(--foreground-muted)" : "var(--foreground)" }}
+                className={`group flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left transition-colors hover:bg-[#F5F5F4] hover:text-gray-900 disabled:cursor-default ${
+                  item.disabled ? "text-[var(--foreground-muted)]" : "text-[var(--foreground)]"
+                }`}
               >
                 {item.icon && (
                   <FaIcon
                     icon={item.icon}
-                    className="w-4 shrink-0 text-[var(--foreground-muted)]"
+                    className="w-4 shrink-0 text-[var(--foreground-muted)] group-hover:text-gray-900"
                     size="sm"
                   />
                 )}
