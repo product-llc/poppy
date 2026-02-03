@@ -23,6 +23,7 @@ import {
   faMicrophone,
   faListCheck,
   faWaveformLines,
+  faUserSecret,
 } from "@fortawesome/pro-solid-svg-icons";
 import {
   faSquare,
@@ -33,6 +34,21 @@ import {
   faComment as faCommentRegular,
   faFileLines as faFileLinesRegular,
   faBell as faBellRegular,
+  faAt as faAtRegular,
+  faCircleQuestion as faCircleQuestionRegular,
+  faSquareCheck as faSquareCheckRegular,
+  faGears as faGearsRegular,
+  faListCheck as faListCheckRegular,
+  faBook as faBookRegular,
+  faMessages,
+  faCheckDouble,
+  faShapes,
+  faSnooze,
+  faPaperclip as faPaperclipRegular,
+  faUserSecret as faUserSecretRegular,
+  faMicrophone as faMicrophoneRegular,
+  faWaveformLines as faWaveformLinesRegular,
+  faArrowUp as faArrowUpRegular,
 } from "@fortawesome/pro-regular-svg-icons";
 
 config.autoAddCss = false;
@@ -61,6 +77,7 @@ library.add(
   faMicrophone,
   faListCheck,
   faWaveformLines,
+  faUserSecret,
   faSquare,
   faCircle,
   faCirclePlusRegular,
@@ -68,5 +85,20 @@ library.add(
   faHouseRegular,
   faCommentRegular,
   faFileLinesRegular,
-  faBellRegular
+  faBellRegular,
+  faAtRegular,
+  faCircleQuestionRegular,
+  faSquareCheckRegular,
+  faGearsRegular,
+  faListCheckRegular,
+  faBookRegular,
+  faMessages,
+  faCheckDouble,
+  faShapes,
+  faSnooze,
+  faPaperclipRegular,
+  faUserSecretRegular,
+  faMicrophoneRegular,
+  faWaveformLinesRegular,
+  faArrowUpRegular
 );

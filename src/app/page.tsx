@@ -21,8 +21,10 @@ export default function HomePage() {
             weather="Areas of low clouds to start, otherwise, sunny 73º / 60º"
           />
           <HeroPanel />
-          <HomeActionsGrid actions={ACTION_SHORTCUTS} />
-          <HomeInputBar />
+          <div className="flex flex-col gap-2">
+            <HomeActionsGrid actions={ACTION_SHORTCUTS} />
+            <HomeInputBar />
+          </div>
         </section>
         <ScheduleSection />
       </div>
@@ -130,12 +132,12 @@ function ScheduleSection() {
 }
 
 const ACTION_SHORTCUTS = [
-  { label: "Plan a lesson", iconKey: "fileLines" as const },
+  { label: "Plan a lesson", iconKey: "book" as const },
   { label: "Write to parents", iconKey: "at" as const },
-  { label: "Roleplay a situation", iconKey: "circleQuestion" as const },
-  { label: "Create a quiz", iconKey: "squareCheck" as const },
-  { label: "Adapt content", iconKey: "gears" as const },
-  { label: "Manage tasks", iconKey: "listCheck" as const },
+  { label: "Roleplay a situation", iconKey: "messages" as const },
+  { label: "Create a quiz", iconKey: "checkDouble" as const },
+  { label: "Adapt content", iconKey: "shapes" as const },
+  { label: "Manage tasks", iconKey: "snooze" as const },
 ];
 
 interface HeaderSectionProps {

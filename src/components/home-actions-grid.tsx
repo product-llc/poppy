@@ -2,22 +2,22 @@
 
 import { FaIcon } from "@/components/fa-icon";
 import {
-  faFileLines,
+  faBook,
   faAt,
-  faCircleQuestion,
-  faSquareCheck,
-  faGears,
-  faListCheck,
-} from "@fortawesome/pro-solid-svg-icons";
+  faMessages,
+  faCheckDouble,
+  faShapes,
+  faSnooze,
+} from "@fortawesome/pro-regular-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 const ACTION_ICONS: Record<string, IconDefinition> = {
-  fileLines: faFileLines,
+  book: faBook,
   at: faAt,
-  circleQuestion: faCircleQuestion,
-  squareCheck: faSquareCheck,
-  gears: faGears,
-  listCheck: faListCheck,
+  messages: faMessages,
+  checkDouble: faCheckDouble,
+  shapes: faShapes,
+  snooze: faSnooze,
 };
 
 export interface HomeAction {
@@ -31,22 +31,19 @@ interface HomeActionsGridProps {
 
 export function HomeActionsGrid({ actions }: HomeActionsGridProps) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
       {actions.map((action) => (
         <button
           key={action.label}
           type="button"
-          className="group flex items-center gap-3 rounded-2xl border bg-white/80 px-4 py-3.5 text-left shadow-[0_25px_80px_rgba(15,11,7,0.08)] transition hover:-translate-y-0.5"
-          style={{ borderColor: "var(--border)" }}
+          className="group flex h-12 items-center gap-2 rounded-xl border border-black/10 bg-orange-50 px-4 py-4 text-left transition-colors hover:bg-orange-100 dark:border-white/10 dark:bg-orange-950/30 dark:hover:bg-orange-900/40"
         >
-          <span
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-[#044834]"
-            style={{ backgroundColor: "rgba(4,72,52,0.1)" }}
+          <FaIcon
+            icon={ACTION_ICONS[action.iconKey]}
+            className="h-4 w-4 shrink-0 text-[#78716c] dark:text-stone-400"
             aria-hidden
-          >
-            <FaIcon icon={ACTION_ICONS[action.iconKey]} className="h-4 w-4" />
-          </span>
-          <span className="text-sm font-semibold" style={{ color: "var(--foreground-secondary)" }}>
+          />
+          <span className="text-sm font-normal text-[#292524] dark:text-stone-200">
             {action.label}
           </span>
         </button>

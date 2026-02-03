@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  font-size: 16px;
   --background: #ffffff;
   --foreground: #1c1a17;
   --foreground-muted: #78766d;
@@ -10,6 +11,8 @@
   --tooltip-bg: #1c1c20;
   --border: #e7e5e4;
   --active-nav-bg: rgba(233, 251, 197, 0.1);
+  --input-caret: #16a34a;
+  --input-bar-shadow: 0 2.77px 2.21px rgba(0,0,0,0.02), 0 6.65px 5.32px rgba(0,0,0,0.028), 0 12.52px 10.02px rgba(0,0,0,0.035), 0 22.34px 17.87px rgba(0,0,0,0.042), 0 41.78px 33.42px rgba(0,0,0,0.05), 0 100px 80px rgba(0,0,0,0.07);
 }
 
 @theme inline {
@@ -21,6 +24,7 @@
   --color-main-bg: var(--main-bg);
   --color-tooltip-bg: var(--tooltip-bg);
   --color-border: var(--border);
+  --color-input-caret: var(--input-caret);
   --font-sans: "Google Sans Flex", "Inter", "SF Pro Display", sans-serif;
   --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
 }
