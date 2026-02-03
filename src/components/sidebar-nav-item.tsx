@@ -1,5 +1,6 @@
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FaIcon } from "@/components/fa-icon";
+import { Tooltip } from "@/components/tooltip";
 
 const ACTIVE_BG = "rgba(233, 251, 197, 0.1)";
 
@@ -19,16 +20,17 @@ export function SidebarNavItem({
   href = "#",
 }: SidebarNavItemProps) {
   return (
-    <a
-      href={href}
-      className="flex h-10 w-10 items-center justify-center rounded-lg text-white transition-[background-color,opacity] duration-200 hover:bg-white/10 hover:opacity-100"
-      style={active ? { backgroundColor: ACTIVE_BG } : undefined}
-      title={label}
-    >
-      <FaIcon
-        icon={active ? iconSolid : iconRegular}
-        className={`h-4 w-4 ${active ? "opacity-100" : "opacity-80"}`}
-      />
-    </a>
+    <Tooltip content={label} side="right" sideOffset={4} triggerClassName="w-10 h-10">
+      <a
+        href={href}
+        className="flex h-10 w-10 items-center justify-center rounded-lg text-white transition-[background-color,opacity] duration-200 hover:bg-white/10 hover:opacity-100"
+        style={active ? { backgroundColor: ACTIVE_BG } : undefined}
+      >
+        <FaIcon
+          icon={active ? iconSolid : iconRegular}
+          className={`h-4 w-4 ${active ? "opacity-100" : "opacity-80"}`}
+        />
+      </a>
+    </Tooltip>
   );
 }

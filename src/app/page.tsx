@@ -42,7 +42,7 @@ function Sidebar() {
         <Logo width={32} height={32} className="opacity-80" />
       </div>
       <nav className="flex flex-1 flex-col gap-4">
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col gap-1">
           {navTop.map((item) => (
             <SidebarNavItem
               key={item.label}
@@ -53,7 +53,7 @@ function Sidebar() {
             />
           ))}
         </div>
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col gap-1">
           {navMain.map((item) => (
             <SidebarNavItem
               key={item.label}
