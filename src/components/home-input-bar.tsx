@@ -11,6 +11,169 @@ import {
   faArrowUp,
 } from "@fortawesome/pro-regular-svg-icons";
 
+const STRIP_COLOR = "#d1d5db";
+
+function VoiceWaveformStrip({ active }: { active: boolean }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const rafRef = useRef<number>(0);
+  const streamRef = useRef<MediaStream | null>(null);
+  const ctxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const timeDataRef = useRef<Uint8Array | null>(null);
+  const stripBufferRef = useRef<number[]>([]);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    let cancelled = false;
+
+    function initStrip(width: number) {
+      stripBufferRef.current = Array(width).fill(0);
+    }
+
+    resizeObserverRef.current = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry || cancelled) return;
+      const w = Math.floor(entry.contentRect.width);
+      const h = Math.floor(entry.contentRect.height);
+      const canvas = canvasRef.current;
+      if (!canvas || w <= 0 || h <= 0) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      initStrip(w);
+    });
+    resizeObserverRef.current.observe(container);
+
+    const canvas = canvasRef.current;
+    if (canvas && container) {
+      const w = Math.floor(container.clientWidth);
+      const h = Math.floor(container.clientHeight);
+      if (w > 0 && h > 0) {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+        initStrip(w);
+      }
+    }
+
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        if (cancelled) {
+          stream.getTracks().forEach((t) => t.stop());
+          return;
+        }
+        streamRef.current = stream;
+        const ctx = new AudioContext();
+        ctxRef.current = ctx;
+        const source = ctx.createMediaStreamSource(stream);
+        const analyser = ctx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.75;
+        source.connect(analyser);
+        analyserRef.current = analyser;
+        timeDataRef.current = new Uint8Array(analyser.fftSize);
+
+        function tick() {
+          const canvas = canvasRef.current;
+          const analyser = analyserRef.current;
+          const timeData = timeDataRef.current;
+          if (!canvas || !analyser || !timeData || cancelled) return;
+
+          analyser.getByteTimeDomainData(timeData as Uint8Array<ArrayBuffer>);
+          let sum = 0;
+          for (let i = 0; i < timeData.length; i++) {
+            const v = (timeData[i]! - 128) / 128;
+            sum += Math.abs(v);
+          }
+          const raw = sum / timeData.length;
+          const level = Math.min(1, Math.pow(raw * 5, 0.6));
+
+          const w = Math.floor(canvas.width / (window.devicePixelRatio || 1));
+          if (w <= 0) {
+            rafRef.current = requestAnimationFrame(tick);
+            return;
+          }
+          const buffer = stripBufferRef.current;
+          if (buffer.length !== w) initStrip(w);
+          buffer.shift();
+          buffer.push(level);
+
+          const dpr = window.devicePixelRatio || 1;
+          const ctx2d = canvas.getContext("2d");
+          if (!ctx2d) return;
+          ctx2d.scale(dpr, dpr);
+          ctx2d.clearRect(0, 0, w, canvas.height / dpr);
+          const h = canvas.height / dpr;
+          const maxAmp = h * 0.9;
+
+          ctx2d.fillStyle = STRIP_COLOR;
+          const barSpacing = 8;
+          const barWidth = 4;
+          const minBarH = 2;
+          const smoothRadius = 2;
+          for (let x = 0; x < buffer.length; x += barSpacing) {
+            let sum = 0;
+            let count = 0;
+            for (let i = -smoothRadius; i <= smoothRadius; i++) {
+              const idx = x + i;
+              if (idx >= 0 && idx < buffer.length) {
+                sum += buffer[idx] ?? 0;
+                count++;
+              }
+            }
+            const level = count > 0 ? sum / count : 0;
+            const amp = Math.min(1, level * 2.2) * maxAmp;
+            const barH = Math.max(minBarH, amp);
+            const top = h - barH;
+            ctx2d.fillRect(x, top, barWidth, barH);
+          }
+          ctx2d.setTransform(1, 0, 0, 1, 0, 0);
+
+          rafRef.current = requestAnimationFrame(tick);
+        }
+        rafRef.current = requestAnimationFrame(tick);
+      })
+      .catch(() => initStrip(container.clientWidth || 200));
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafRef.current);
+      resizeObserverRef.current?.disconnect();
+      resizeObserverRef.current = null;
+      streamRef.current?.getTracks().forEach((t) => t.stop());
+      streamRef.current = null;
+      ctxRef.current?.close();
+      ctxRef.current = null;
+      analyserRef.current = null;
+      timeDataRef.current = null;
+      stripBufferRef.current = [];
+    };
+  }, [active]);
+
+  if (!active) return null;
+
+  return (
+    <div ref={containerRef} className="flex-1 min-w-0 h-6 flex items-center px-3">
+      <canvas
+        ref={canvasRef}
+        className="block w-full h-full"
+        style={{ maxHeight: 24 }}
+        aria-hidden
+      />
+    </div>
+  );
+}
+
 const PLACEHOLDER = "Try: 'Create a math quiz on fractions for 5th grade'";
 
 interface DictationRecognitionResult {
@@ -46,6 +209,7 @@ export function HomeInputBar() {
   const [isDictating, setIsDictating] = useState(false);
   const [dictationSupported, setDictationSupported] = useState(true);
   const recognitionRef = useRef<DictationRecognition | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const isTyping = value.length > 0 || interim.length > 0;
   const showSend = isTyping && !isDictating;
@@ -84,6 +248,13 @@ export function HomeInputBar() {
       recognition.stop();
       setIsDictating(false);
       setInterim("");
+      setTimeout(() => {
+        const el = inputRef.current;
+        if (!el) return;
+        el.focus();
+        const len = el.value.length;
+        el.setSelectionRange(len, len);
+      }, 0);
     };
     recognitionRef.current = recognition;
     recognition.start();
@@ -116,6 +287,13 @@ export function HomeInputBar() {
     }
     setIsDictating(false);
     setInterim("");
+    setTimeout(() => {
+      const el = inputRef.current;
+      if (!el) return;
+      el.focus();
+      const len = el.value.length;
+      el.setSelectionRange(len, len);
+    }, 0);
   }
 
   function handleSend() {
@@ -136,6 +314,7 @@ export function HomeInputBar() {
     >
       <div className="min-w-0">
         <input
+          ref={inputRef}
           type="text"
           value={displayValue}
           onChange={(e) => !isDictating && setValue(e.target.value)}
@@ -209,24 +388,17 @@ export function HomeInputBar() {
             )}
           </div>
         ) : (
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              className={iconButtonClass}
-              style={{ color: "#16a34a" }}
-              aria-label="Dictation active"
-            >
-              <FaIcon icon={faMicrophone} className="h-4 w-4" />
-            </button>
+          <>
+            <VoiceWaveformStrip active={true} />
             <button
               type="button"
               onClick={handleEndDictation}
-              className="h-6 rounded-[6px] px-3 text-base font-medium flex items-center transition-all duration-150 hover:opacity-90 active:scale-95"
-              style={{ backgroundColor: "#16a34a", color: "white" }}
+              className="h-6 shrink-0 rounded-[6px] px-3 text-base font-medium flex items-center transition-all duration-150 hover:opacity-90 active:scale-95"
+              style={{ backgroundColor: "#000", color: "white" }}
             >
               End
             </button>
-          </div>
+          </>
         )}
       </div>
     </div>
