@@ -7,6 +7,7 @@ import { ChatProvider } from "@/lib/chat-context";
 import { HomeShell } from "@/components/home-shell";
 import "@/lib/fontawesome";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body
         className="antialiased"
       >
-        <ChatProvider>
-          <HomeShell>{children}</HomeShell>
-        </ChatProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ChatProvider>
+            <HomeShell>{children}</HomeShell>
+          </ChatProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

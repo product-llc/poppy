@@ -8,7 +8,7 @@ interface LogoProps {
 
 export function Logo({ width = 40, height = 40, className, variant = "white", spin = false }: LogoProps) {
   const isBlack = variant === "black";
-  const fill = isBlack ? "#1c1a17" : "white";
+  const fill = isBlack ? "var(--foreground)" : "white";
   const fillOpacity = isBlack ? "1" : "0.8";
   const filterId = isBlack ? "logo-filter-black" : "logo-filter-white";
 

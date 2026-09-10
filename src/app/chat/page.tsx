@@ -102,7 +102,7 @@ export default function ChatPage() {
           </p>
         ) : (
           <div
-            className="flex flex-col gap-6 rounded-xl bg-white p-6"
+            className="flex flex-col gap-6 rounded-xl bg-card p-6"
             style={{ boxShadow: "var(--input-bar-shadow)" }}
           >
             {chat.messages.map((m, i) => (

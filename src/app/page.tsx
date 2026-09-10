@@ -73,8 +73,7 @@ function HeaderSection({ dateParts, weather }: HeaderSectionProps) {
 function HeroPanel() {
   return (
     <div
-      className="relative aspect-[21/9] overflow-hidden rounded-3xl border bg-[#f8eedd]"
-      style={{ borderColor: "rgba(15,11,7,0.06)" }}
+      className="relative aspect-[21/9] overflow-hidden rounded-3xl border border-black/[0.06] bg-[#f8eedd] dark:border-white/10 dark:bg-card"
     >
       <Image
         src="/poppies.png"

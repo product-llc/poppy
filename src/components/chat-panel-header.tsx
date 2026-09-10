@@ -36,7 +36,7 @@ export function ChatPanelHeader({ title }: ChatPanelHeaderProps) {
       <div className="flex shrink-0 items-center gap-1">
         <button
           type="button"
-          className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-black/10"
+          className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-black/10 dark:hover:bg-white/10"
           style={{ color: "var(--foreground-muted)" }}
           aria-label="Share"
         >
@@ -44,7 +44,7 @@ export function ChatPanelHeader({ title }: ChatPanelHeaderProps) {
         </button>
         <button
           type="button"
-          className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-black/10"
+          className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-black/10 dark:hover:bg-white/10"
           style={{ color: "var(--foreground-muted)" }}
           aria-label="New chat"
           onClick={handleNewChat}
@@ -53,7 +53,7 @@ export function ChatPanelHeader({ title }: ChatPanelHeaderProps) {
         </button>
         <button
           type="button"
-          className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-black/10"
+          className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-black/10 dark:hover:bg-white/10"
           style={{ color: "var(--foreground-muted)" }}
           aria-label="More options"
         >

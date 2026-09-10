@@ -309,14 +309,14 @@ export function HomeInputBar({ onSend, disabled = false }: HomeInputBarProps) {
   }
 
   const iconButtonClass =
-    "flex h-6 w-6 shrink-0 items-center justify-center rounded-[6px] transition-colors duration-150 hover:bg-black/8 active:bg-black/12";
+    "flex h-6 w-6 shrink-0 items-center justify-center rounded-[6px] transition-colors duration-150 hover:bg-black/8 active:bg-black/12 dark:hover:bg-white/10 dark:active:bg-white/15";
   const filledButtonClass =
     "flex h-6 w-6 shrink-0 items-center justify-center rounded-[6px] transition-all duration-150 hover:opacity-90 active:scale-95";
   const iconMutedStyle = { color: "var(--foreground-muted)" };
 
   return (
     <div
-      className="flex w-full flex-col gap-4 rounded-xl bg-white p-4"
+      className="flex w-full flex-col gap-4 rounded-xl bg-card p-4"
       style={{ boxShadow: "var(--input-bar-shadow)" }}
     >
       <div className="min-w-0">
@@ -383,7 +383,7 @@ export function HomeInputBar({ onSend, disabled = false }: HomeInputBarProps) {
                 onClick={handleSend}
                 disabled={disabled}
                 className={filledButtonClass}
-                style={{ backgroundColor: "var(--foreground)", color: "white" }}
+                style={{ backgroundColor: "var(--foreground)", color: "var(--background)" }}
                 aria-label="Send"
               >
                 <FaIcon icon={faArrowUp} className="h-4 w-4" />
@@ -393,7 +393,7 @@ export function HomeInputBar({ onSend, disabled = false }: HomeInputBarProps) {
                 <button
                   type="button"
                   className={filledButtonClass}
-                  style={{ backgroundColor: "var(--foreground)", color: "white" }}
+                  style={{ backgroundColor: "var(--foreground)", color: "var(--background)" }}
                   aria-label="Voice"
                 >
                   <FaIcon icon={faWaveformLines} className="h-4 w-4" />
@@ -408,7 +408,7 @@ export function HomeInputBar({ onSend, disabled = false }: HomeInputBarProps) {
               type="button"
               onClick={handleEndDictation}
               className="h-6 shrink-0 rounded-[6px] px-3 text-base font-medium flex items-center transition-all duration-150 hover:opacity-90 active:scale-95"
-              style={{ backgroundColor: "#000", color: "white" }}
+              style={{ backgroundColor: "var(--foreground)", color: "var(--background)" }}
             >
               End
             </button>

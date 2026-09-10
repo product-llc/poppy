@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Dark mode is a class on <html> (next-themes), not the OS preference. */
+@custom-variant dark (&:is(.dark *));
+
 :root {
   font-size: 18px;
   --background: #ffffff;
@@ -9,6 +12,7 @@
   --sidebar-bg: #044834;
   --sidebar-panel-bg: #032F23;
   --main-bg: #fff6eb;
+  --card: #ffffff;
   --tooltip-bg: #1c1c20;
   --border: #e7e5e4;
   --active-nav-bg: rgba(233, 251, 197, 0.1);
@@ -25,6 +29,7 @@
   --color-sidebar-bg: var(--sidebar-bg);
   --color-sidebar-panel-bg: var(--sidebar-panel-bg);
   --color-main-bg: var(--main-bg);
+  --color-card: var(--card);
   --color-tooltip-bg: var(--tooltip-bg);
   --color-border: var(--border);
   --color-input-caret: var(--input-caret);
@@ -33,11 +38,25 @@
   --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/*
+ * Dark theme, kept warm: the light page is cream on paper, so the dark one is cream on a
+ * warm near-black (the light foreground colour, #1c1a17, is the dark main surface) rather
+ * than grey on grey. The green sidebar stays green, a shade deeper.
+ */
+.dark {
+  color-scheme: dark;
+  --background: #141210;
+  --foreground: #f3ede4;
+  --foreground-muted: #a39c90;
+  --foreground-secondary: #d9d2c7;
+  --sidebar-bg: #043227;
+  --sidebar-panel-bg: #02241b;
+  --main-bg: #1c1a17;
+  --card: #26221d;
+  --tooltip-bg: #3a3630;
+  --border: #3a352e;
+  --input-caret: #4ade80;
+  --input-bar-shadow: 0 2.77px 2.21px rgba(0,0,0,0.08), 0 6.65px 5.32px rgba(0,0,0,0.1), 0 12.52px 10.02px rgba(0,0,0,0.12), 0 22.34px 17.87px rgba(0,0,0,0.14), 0 41.78px 33.42px rgba(0,0,0,0.16), 0 100px 80px rgba(0,0,0,0.2);
 }
 
 body {
