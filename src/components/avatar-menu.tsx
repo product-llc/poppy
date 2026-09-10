@@ -9,7 +9,10 @@ import {
   faArrowUp,
   faBook,
   faRightFromBracket,
+  faMoon,
+  faSun,
 } from "@fortawesome/pro-solid-svg-icons";
+import { useTheme } from "next-themes";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { FaIcon } from "@/components/fa-icon";
 import { UserAvatar } from "@/components/user-avatar";
@@ -43,6 +46,14 @@ interface AvatarMenuProps {
 export function AvatarMenu({ avatarSrc }: AvatarMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  // The menu only exists after a click, so it never renders on the server and can read the theme.
+  const isDark = resolvedTheme === "dark";
+  const items: (MenuItem | "divider")[] = MENU_ITEMS.flatMap((item) =>
+    item !== "divider" && item.label === "Language"
+      ? [item, { label: isDark ? "Light mode" : "Dark mode", icon: isDark ? faSun : faMoon, onClick: () => setTheme(isDark ? "light" : "dark") }]
+      : [item]
+  );
 
   const toggle = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -78,10 +89,10 @@ export function AvatarMenu({ avatarSrc }: AvatarMenuProps) {
       {open && (
         <div
           data-avatar-menu
-          className="absolute bottom-full left-0 z-50 mb-2 min-w-[220px] overflow-hidden rounded-lg bg-white p-2 text-sm shadow-lg"
+          className="absolute bottom-full left-0 z-50 mb-2 min-w-[220px] overflow-hidden rounded-lg bg-card p-2 text-sm shadow-lg"
           role="menu"
         >
-          {MENU_ITEMS.map((item, i) =>
+          {items.map((item, i) =>
             item === "divider" ? (
               <div key={i} className="my-2 border-t border-[var(--border)]" />
             ) : (
@@ -90,15 +101,15 @@ export function AvatarMenu({ avatarSrc }: AvatarMenuProps) {
                 type="button"
                 role="menuitem"
                 disabled={item.disabled}
-                onClick={item.disabled ? undefined : close}
-                className={`group flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left transition-colors hover:bg-[#F5F5F4] hover:text-gray-900 disabled:cursor-default ${
+                onClick={item.disabled ? undefined : () => { item.onClick?.(); close(); }}
+                className={`group flex w-full items-center gap-3 rounded-lg px-4 py-2 text-left transition-colors hover:bg-black/5 hover:text-[var(--foreground)] dark:hover:bg-white/10 disabled:cursor-default ${
                   item.disabled ? "text-[var(--foreground-muted)]" : "text-[var(--foreground)]"
                 }`}
               >
                 {item.icon && (
                   <FaIcon
                     icon={item.icon}
-                    className="w-4 shrink-0 text-[var(--foreground-muted)] group-hover:text-gray-900"
+                    className="w-4 shrink-0 text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]"
                     size="sm"
                   />
                 )}

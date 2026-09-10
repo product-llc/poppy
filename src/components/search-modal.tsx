@@ -15,11 +15,11 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       aria-modal="true"
     >
       <div
-        className="aspect-video w-full max-w-3xl rounded-lg bg-white p-8 shadow-xl"
+        className="aspect-video w-full max-w-3xl rounded-lg bg-card p-8 shadow-xl"
         style={{ maxHeight: "calc(100vh - 4rem)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="flex h-full items-center justify-center text-lg text-neutral-500">
+        <p className="flex h-full items-center justify-center text-lg text-[var(--foreground-muted)]">
           Search UI goes here
         </p>
       </div>
